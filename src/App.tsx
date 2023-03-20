@@ -1,19 +1,19 @@
 import React, {useState} from 'react';
 import './App.scss';
 import Form from "./components/Form/Form";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditIcon from '@mui/icons-material/Edit';
+import TodoItem from "./components/TodoItem/TodoItem";
 
 const App: React.FC = () => {
-    type todosType = {
+    type TodosType = {
         id: number
-        text: String
-        done: boolean
+        text: string
+        tags: Array<string>
     }
-    const [todos, setTodos] = useState<todosType[]>([]);
+    const [todos, setTodos] = useState<TodosType[]>([]);
+    const [savedTodos, setSavedTodos] = useState<TodosType[]>([]);
 
-    const putTodo = (value: String) => {
-        setTodos([...todos, {id: Date.now(), text: value, done: false}]);
+    const putTodo = (value: string) => {
+        setTodos([...todos, {id: Date.now(), text: value, tags: ["#home", "#shop"]}]);
     }
 
     const removeTodo = (id: number) => {
@@ -21,21 +21,25 @@ const App: React.FC = () => {
     }
 
     const editTodo = (id: number) => {
-        setTodos(todos.filter(t => t.id !== id));
+
+    }
+
+    const filterTags = (tag: string) => {
+        setSavedTodos(todos);
+        setTodos(todos.filter(t => t.tags.includes(tag)));
+    }
+
+    const showTodos = () => {
+        setTodos(savedTodos);
     }
 
     return (
         <div className="app-wrapper">
             <div className="container">
                 <h1 className="title">Notes</h1>
-                <Form putTodo={putTodo}/>
+                <Form putTodo={putTodo} filterTags={filterTags} showTodos={showTodos}/>
                 <ul className="todos">
-                    {todos.map(t =>
-                        <li className="todo" key={t.id}>
-                            {t.text}
-                            <EditIcon className="edit" onClick={() => editTodo(t.id)}/>
-                            <DeleteOutlineIcon className="delete" onClick={() => removeTodo(t.id)}/>
-                        </li>)}
+                    {todos.map(t => <TodoItem t={t} editTodo={editTodo} removeTodo={removeTodo}/>)}
                 </ul>
             </div>
         </div>
