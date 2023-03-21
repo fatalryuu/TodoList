@@ -5,8 +5,8 @@ import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 
 type PropsType = {
-    putTodo: (value: string) => void
-    filterTags: (value: string) => void
+    putTodo: (text: string) => void
+    filterTags: (text: string) => void
     showTodos: () => void
 }
 

@@ -20,7 +20,7 @@ const TodoItem: React.FC<PropsType> = ({t, editTodo, removeTodo}) => {
     return (
         <li className="todo" key={t.id}>
             <div>
-                {t.text}
+                <span className="text">{t.text}</span>
                 <EditIcon className="edit" onClick={() => editTodo(t.id)}/>
                 <DeleteOutlineIcon className="delete" onClick={() => removeTodo(t.id)}/>
             </div>
