@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/TodoNYBLECRAFT/static/css/main.31a62155.css",
+    "main.js": "/TodoNYBLECRAFT/static/js/main.610f37ab.js",
+    "index.html": "/TodoNYBLECRAFT/index.html",
+    "main.31a62155.css.map": "/TodoNYBLECRAFT/static/css/main.31a62155.css.map",
+    "main.610f37ab.js.map": "/TodoNYBLECRAFT/static/js/main.610f37ab.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31a62155.css",
+    "static/js/main.610f37ab.js"
+  ]
+}
