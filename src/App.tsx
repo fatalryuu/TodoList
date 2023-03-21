@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.scss';
 import Form from "./components/Form/Form";
 import TodoItem from "./components/TodoItem/TodoItem";
@@ -11,7 +11,10 @@ export type TodosType = {
 }
 
 const App: React.FC = () => {
-    const [todos, setTodos] = useState<TodosType[]>([]);
+    const [todos, setTodos] = useState<TodosType[]>([
+        {id: 1, text: "feels #good", tags: ["#good"]},
+        {id: 2, text: "buy #pizza with a lot of #cheese", tags: ["#pizza", "#cheese"]},
+    ]);
     const [savedTodos, setSavedTodos] = useState<TodosType[]>([]);
     const [editMode, setEditMode] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState<TodosType>();
@@ -57,7 +60,7 @@ const App: React.FC = () => {
             if (t.id !== id)
                 return t;
             else {
-                return {id: t.id, text, tags: 
+                return {id: t.id, text, tags:
                         tags.filter((value, index, self) =>
                                 self.indexOf(value) === index)};
             }
@@ -74,8 +77,10 @@ const App: React.FC = () => {
     }
 
     const showTodos = () => {
-        setTodos(savedTodos);
-        setSavedTodos([]);
+        if (savedTodos.length !== 0) {
+            setTodos(savedTodos);
+            setSavedTodos([]);
+        }
     }
 
     return (

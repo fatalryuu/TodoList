@@ -15,11 +15,11 @@ const Form: React.FC<PropsType> = ({putTodo, filterTags, showTodos, editMode}) =
     const [text, setText] = useState("");
     const [isFilter, setIsFilter] = useState(false);
 
-    const onTextChange = (e: any) => {
+    const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value);
     }
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         isFilter ? filterTags(text) : putTodo(text);
         if (!isFilter)

@@ -21,6 +21,9 @@ const EditForm: React.FC<PropsType> = ({editMode, setEditMode, todo, saveTodo}) 
             setTags(todo.tags);
         }
     }, [todo]);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setText(e.target.value);
+    }
     const handleCloseButtonClick = () => {
         setEditMode(false);
     }
@@ -42,13 +45,20 @@ const EditForm: React.FC<PropsType> = ({editMode, setEditMode, todo, saveTodo}) 
     return (
         <div className="window">
             <button className="close" onClick={handleCloseButtonClick}>X</button>
+            <div className="editing-text">Editing</div>
             <form className="edit-form">
                 <div className="input-wrapper">
-                    <input type="text" value={text} placeholder="Enter new text..." onChange={e => setText(e.target.value)} className="" autoFocus={true}/>
+                    <input
+                        type="text"
+                        value={text}
+                        onChange={handleInputChange}
+                        placeholder="Enter new text..."
+                        className=""
+                        autoFocus={true}/>
                 </div>
                 <div>
                     <div className="tags-input-wrapper">
-                        <input type="text" value={tag} placeholder="Enter new tag..." onChange={e => setTag(e.target.value)} className="" autoFocus={true}/>
+                        <input type="text" value={tag} placeholder="Enter new tag..." onChange={e => setTag(e.target.value)} className=""/>
                         <ControlPointOutlinedIcon className="add-tag" onClick={handleNewTag}/>
                     </div>
                     <div className="delete-info">
