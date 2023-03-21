@@ -10,6 +10,22 @@ export type TodosType = {
     tags: Array<string>
 }
 
+export const findTagsInString = (text: string) => {
+    let tags: Array<string> = text.split("#");
+    if (tags.length > 1) {
+        tags.shift();
+        tags = tags.map(t => "#" + t);
+        const newText: string = tags.reduce((acc, t) => acc + t + " ", "");
+        tags = newText.split(" ")
+            .filter(t => t !== "#")
+            .filter(t => t.startsWith("#"));
+        tags = tags.map(t => " " + t);
+    }
+    else
+        tags = [];
+    return tags.filter((value, index, self) => self.indexOf(value) === index);
+}
+
 const App: React.FC = () => {
     const [todos, setTodos] = useState<TodosType[]>([]);
     const [savedTodos, setSavedTodos] = useState<TodosType[]>([]);
@@ -29,21 +45,6 @@ const App: React.FC = () => {
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos));
     }, [todos]);
-
-    const findTagsInString = (text: string) => {
-        let tags: Array<string> = text.split("#");
-        if (tags.length > 1) {
-            tags.shift();
-            tags = tags.map(t => "#" + t);
-            const newText: string = tags.reduce((acc, t) => acc + t + " ", "");
-            tags = newText.split(" ")
-                .filter(t => t !== "#")
-                .filter(t => t.startsWith("#"));
-        }
-        else
-            tags = [];
-        return tags;
-    }
 
     const putTodo = (text: string) => {
         const tags: Array<string> = findTagsInString(text);

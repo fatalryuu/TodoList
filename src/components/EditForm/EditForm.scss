@@ -55,6 +55,17 @@ $color: #7400af;
         .input-wrapper {
             input {
                 @extend %inputClasses;
+                margin-bottom: 5px;
+            }
+
+            .tags-in-text {
+                font-size: 18px;
+                margin-bottom: 10px;
+
+                div {
+                    color: $color;
+                    overflow-wrap: break-word;
+                }
             }
         }
         .tags-input-wrapper {

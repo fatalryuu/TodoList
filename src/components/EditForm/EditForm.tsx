@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './EditForm.scss';
-import {TodosType} from "../../App";
+import {findTagsInString, TodosType} from "../../App";
 import Tag from "../Tag/Tag";
 import ControlPointOutlinedIcon from '@mui/icons-material/ControlPointOutlined';
 
@@ -15,16 +15,19 @@ const EditForm: React.FC<PropsType> = ({editMode, setEditMode, todo, saveTodo}) 
     const [text, setText] = useState("");
     const [tag, setTag] = useState("#");
     const [tags, setTags] = useState<Array<string>>([]);
+    const [textTags, setTextTags] = useState<Array<string>>([]);
 
     useEffect(() => {
         if (todo) {
             setText(todo.text);
             setTags(todo.tags);
+            setTextTags(findTagsInString(todo.text));
         }
     }, [todo]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value);
+        setTextTags(findTagsInString(e.target.value));
     }
 
     const handleCloseButtonClick = () => {
@@ -61,10 +64,17 @@ const EditForm: React.FC<PropsType> = ({editMode, setEditMode, todo, saveTodo}) 
                         placeholder="Enter new text..."
                         className=""
                         autoFocus={true}/>
+                    <div className="tags-in-text">
+                        Tags in text:
+                        <div>
+                            {textTags}
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <div className="tags-input-wrapper">
-                        <input type="text" value={tag} placeholder="Enter new tag..." onChange={e => setTag(e.target.value)} className=""/>
+                        <input type="text" value={tag} placeholder="Enter new tag..."
+                               onChange={e => setTag(e.target.value)} className=""/>
                         <ControlPointOutlinedIcon className="add-tag" onClick={handleNewTag}/>
                     </div>
                     <div className="delete-info">
