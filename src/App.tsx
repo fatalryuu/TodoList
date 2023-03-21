@@ -11,13 +11,24 @@ export type TodosType = {
 }
 
 const App: React.FC = () => {
-    const [todos, setTodos] = useState<TodosType[]>([
-        {id: 1, text: "feels #good", tags: ["#good"]},
-        {id: 2, text: "buy #pizza with a lot of #cheese", tags: ["#pizza", "#cheese"]},
-    ]);
+    const [todos, setTodos] = useState<TodosType[]>([]);
     const [savedTodos, setSavedTodos] = useState<TodosType[]>([]);
     const [editMode, setEditMode] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState<TodosType>();
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify([
+            {id: 1, text: "feels #good", tags: ["#good"]},
+            {id: 2, text: "buy #pizza with a lot of #cheese", tags: ["#pizza", "#cheese"]},
+        ]));
+        
+        const storedTodoList = localStorage.getItem('todos');
+        setTodos(storedTodoList ? JSON.parse(storedTodoList) : []);
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos]);
 
     const findTagsInString = (text: string) => {
         let tags: Array<string> = text.split("#");
