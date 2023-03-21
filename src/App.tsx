@@ -13,17 +13,18 @@ export type TodosType = {
 const App: React.FC = () => {
     const [todos, setTodos] = useState<TodosType[]>([]);
     const [savedTodos, setSavedTodos] = useState<TodosType[]>([]);
-    const [showEditWindow, setShowEditWindow] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState<TodosType>();
 
-    const checkTodosInString = (text: string) => {
+    const findTagsInString = (text: string) => {
         let tags: Array<string> = text.split("#");
         if (tags.length > 1) {
             tags.shift();
             tags = tags.map(t => "#" + t);
-            const newText: string = tags.reduce((acc, t) => acc + t);
-            tags = newText.split(" ");
-            tags = tags.filter(t => t.startsWith("#"));
+            const newText: string = tags.reduce((acc, t) => acc + t + " ", "");
+            tags = newText.split(" ")
+                .filter(t => t !== "#")
+                .filter(t => t.startsWith("#"));
         }
         else
             tags = [];
@@ -31,8 +32,11 @@ const App: React.FC = () => {
     }
 
     const putTodo = (text: string) => {
-        const tags = checkTodosInString(text);
-        setTodos([...todos, {id: Date.now(), text, tags}]);
+        const tags: Array<string> = findTagsInString(text);
+        setTodos([...todos, {id: Date.now(), text, tags:
+                tags.filter((value, index, self) =>
+                    self.indexOf(value) === index)}]
+        );
     }
 
     const removeTodo = (id: number) => {
@@ -41,11 +45,11 @@ const App: React.FC = () => {
 
     const editTodo = (id: number) => {
         setSelectedTodo(todos.filter(t => t.id === id)[0]);
-        setShowEditWindow(true);
+        setEditMode(true);
     }
 
     const saveTodo = (text: string, tags: Array<string>, id: number) => {
-        const tagsInString = checkTodosInString(text);
+        const tagsInString: Array<string> = findTagsInString(text);
         if (tagsInString.length !== 0) {
             tags = tags.concat(tagsInString);
         }
@@ -53,29 +57,36 @@ const App: React.FC = () => {
             if (t.id !== id)
                 return t;
             else {
-                return {id: t.id, text, tags: t.tags};
+                return {id: t.id, text, tags: 
+                        tags.filter((value, index, self) =>
+                                self.indexOf(value) === index)};
             }
         }));
     }
 
     const filterTags = (tag: string) => {
-        setSavedTodos(todos);
-        setTodos(todos.filter(t => t.tags.includes(tag)));
+        if (savedTodos.length === 0) {
+            setSavedTodos(todos);
+            setTodos(todos.filter(t => t.tags.includes(tag)));
+        } else {
+            setTodos(savedTodos.filter(t => t.tags.includes(tag)));
+        }
     }
 
     const showTodos = () => {
         setTodos(savedTodos);
+        setSavedTodos([]);
     }
 
     return (
         <div className="app-wrapper">
             <div className="container">
                 <h1 className="title">Notes</h1>
-                <Form putTodo={putTodo} filterTags={filterTags} showTodos={showTodos}/>
+                <Form putTodo={putTodo} filterTags={filterTags} showTodos={showTodos} editMode={editMode}/>
                 <ul className="todos">
-                    {todos.map(t => <TodoItem t={t} editTodo={editTodo} removeTodo={removeTodo}/>)}
+                    {todos.map((t, i) => <TodoItem t={t} editTodo={editTodo} removeTodo={removeTodo} editMode={editMode} key={i}/>)}
                 </ul>
-                {showEditWindow && <EditForm setShowEditWindow={setShowEditWindow} todo={selectedTodo} saveTodo={saveTodo}/>}
+                {editMode && <EditForm editMode={editMode} setEditMode={setEditMode} todo={selectedTodo} saveTodo={saveTodo}/>}
             </div>
         </div>
     );

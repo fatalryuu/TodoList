@@ -1,14 +1,97 @@
-.window {
-  position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  border: 1px solid #7400af;
-  padding: 10px;
-  box-shadow: 2px 2px 10px 0 #8516e0;
+$color: #7400af;
+%inputClasses {
+    width: 100%;
+    outline: none;
+    border: 2px solid $color;
+    padding: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
 
-  .close {
-    float: right;
-  }
+    &:hover {
+        opacity: 1;
+    }
+
+    &:focus {
+        opacity: 1;
+    }
+}
+
+.window {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: auto;
+    background-color: white;
+    border: 1px solid $color;
+    padding: 10px;
+    box-shadow: 2px 2px 10px 0 #8516e0;
+
+    .close {
+        float: right;
+        border: 1px solid $color;
+        color: $color;
+        border-radius: 10px;
+        height: 20px;
+        width: 20px;
+        text-align: center;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+    .edit-form {
+        padding: 10px;
+        margin-top: 30px;
+
+        .input-wrapper {
+            input {
+                @extend %inputClasses;
+            }
+        }
+        .tags-input-wrapper {
+            display: flex;
+            align-items: center;
+
+            input {
+                @extend %inputClasses;
+                width: 90%;
+                margin-right: 5px;
+            }
+
+            .add-tag {
+                margin-bottom: 10px;
+                width: 40px;
+                cursor: pointer;
+            }
+        }
+
+        .delete-info {
+            font-size: 18px;
+            font-weight: 600;
+            color: $color;
+            margin-bottom: 7px;
+        }
+
+        .tags-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .save {
+            float: right;
+            width: 100px;
+            color: $color;
+            border: 1px solid $color;
+            border-radius: 10px;
+            padding: 5px;
+            cursor: pointer;
+            background-color: white;
+            transition: 0.2s;
+
+            &:hover {
+                background-color: #f7e0ff;
+            }
+        }
+    }
 }

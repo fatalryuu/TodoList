@@ -15,6 +15,16 @@ $color: #7400af;
     }
 }
 
+%disabledStyles {
+    &:disabled {
+        &:hover {
+            opacity: 0.3;
+        }
+        opacity: 0.3;
+        cursor: default;
+    }
+}
+
 .form {
     display: flex;
 
@@ -35,13 +45,17 @@ $color: #7400af;
         &:focus {
             opacity: 1;
         }
+        @extend %disabledStyles;
     }
+
 
     .plus {
         @extend %buttonStyles;
+        @extend %disabledStyles;
     }
 
     .filter {
         @extend %buttonStyles;
+        @extend %disabledStyles;
     }
 }
