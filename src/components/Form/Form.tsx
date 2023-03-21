@@ -21,7 +21,7 @@ const Form: React.FC<PropsType> = ({putTodo, filterTags, showTodos, editMode}) =
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        isFilter ? filterTags(text) : putTodo(text);
+        isFilter ? filterTags(text.trim()) : putTodo(text.trim());
         if (!isFilter)
             setText("");
     }

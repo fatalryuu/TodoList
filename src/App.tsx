@@ -21,7 +21,7 @@ const App: React.FC = () => {
             {id: 1, text: "feels #good", tags: ["#good"]},
             {id: 2, text: "buy #pizza with a lot of #cheese", tags: ["#pizza", "#cheese"]},
         ]));
-        
+
         const storedTodoList = localStorage.getItem('todos');
         setTodos(storedTodoList ? JSON.parse(storedTodoList) : []);
     }, []);

@@ -15,28 +15,34 @@ const EditForm: React.FC<PropsType> = ({editMode, setEditMode, todo, saveTodo}) 
     const [text, setText] = useState("");
     const [tag, setTag] = useState("#");
     const [tags, setTags] = useState<Array<string>>([]);
+
     useEffect(() => {
         if (todo) {
             setText(todo.text);
             setTags(todo.tags);
         }
     }, [todo]);
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value);
     }
+
     const handleCloseButtonClick = () => {
         setEditMode(false);
     }
+
     const handleSaveButtonClick = () => {
         if (todo)
             saveTodo(text, tags, todo.id);
         setEditMode(false);
     }
+
     const handleNewTag = () => {
         if (tag.trim() !== "#")
-            setTags([...tags, tag].filter((value, index, self) =>
+            setTags([...tags, tag.trim()].filter((value, index, self) =>
                 self.indexOf(value) === index));
     }
+
     const deleteTag = (id: number) => {
         const newTags = tags.slice();
         newTags.splice(id, 1);
